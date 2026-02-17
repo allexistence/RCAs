@@ -1,2 +1,2 @@
 # RCAs
-Issuese faced their solutions
+This repository contains Root Cause Analyses (RCAs) of issues encountered and their corresponding solutions.
