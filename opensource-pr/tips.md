@@ -1,4 +1,4 @@
-# Git Workflow Tips for rancher-docs Contributors
+# Git Workflow Tips 
 
 Two common scenarios when contributing to `rancher/rancher-docs`.
 
