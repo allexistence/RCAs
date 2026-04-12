@@ -126,9 +126,11 @@ git rebase upstream/main
 
 # --- If rebase hits conflicts ---
 # Git will pause and show conflicting files. Resolve them manually, then:
-git add <conflicted-file>
-git rebase --continue
-# To cancel rebase entirely:
+git status                        # shows which files need resolving
+git add <conflicted-file>         # mark each file resolved one by one
+git rebase --continue             # move to next commit in rebase
+# Repeat git add + git rebase --continue until rebase completes
+# To cancel rebase entirely and go back to original state:
 # git rebase --abort
 
 # Step 3: Make your new edits, then verify
@@ -139,11 +141,21 @@ git diff
 git add <files>
 git commit -s -m "docs: address review feedback on labels example"
 
-# Step 5: Push updates back to the same PR branch
-# If you did NOT rebase:
+# Step 5: Check your commit count on this branch
+# You should ideally have only 1 clean commit before pushing
+git log --oneline upstream/main..HEAD
+
+# --- If you have multiple commits, squash them into one ---
+# --soft resets commits but keeps all changes staged (your work is NOT lost)
+git reset --soft upstream/main
+git add .
+git commit -s -m "docs: add recommended labels example"
+
+# Step 6: Push updates back to the same PR branch
+# If you did NOT rebase or squash:
 git push origin docs/add-recommended-labels-example
 
-# If you DID rebase (history was rewritten — force push required):
+# If you DID rebase or squash (history was rewritten — force push required):
 git push --force-with-lease origin docs/add-recommended-labels-example
 # ✅ --force-with-lease is safer than --force: it fails if someone else pushed in the meantime
 ```
