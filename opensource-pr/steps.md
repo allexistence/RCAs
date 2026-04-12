@@ -79,12 +79,14 @@ git push -u origin docs/add-recommended-labels-example
 
 ```bash
 # Step 1: Always start from an up-to-date main (critical!)
+# Use reset --hard instead of pull to avoid extra merge commits on main
 git checkout main
 git fetch upstream
-git pull upstream main --rebase
-git push origin main
+git reset --hard upstream/main
+git push origin main --force-with-lease
 
 # Step 2: Create a fresh branch for the new PR
+# Always branch off the freshly synced main
 git checkout -b fix/typo-labels-page
 
 # Step 3: Make changes, verify, commit
@@ -98,6 +100,12 @@ git commit -s -m "fix: correct typo on labels page"
 git push -u origin fix/typo-labels-page
 
 # Step 5: Open PR on GitHub (same as Use Case 1, Step 6)
+# → Go to your fork on GitHub
+# → Click "Compare & pull request"
+# → Base repo  : <upstream-org>/<repo>  |  Base branch : main
+# → Compare    : <your-username>:fix/typo-labels-page
+# → Fill in PR title and description
+# → Submit the PR
 ```
 
 > ✅ **Conflict prevention:** Never branch off an old local `main`. Always rebase against `upstream/main` first.
