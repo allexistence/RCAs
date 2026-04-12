@@ -38,13 +38,15 @@ git remote -v
 > You have just forked the repo and want to raise your first PR.
 
 ```bash
-# Step 1: Sync local main with upstream BEFORE branching (avoids conflicts)
+# Step 1: Sync local main with upstream BEFORE branching
+# Use reset --hard instead of pull to avoid extra merge commits on main
 git checkout main
 git fetch upstream
-git pull upstream main --rebase
-git push origin main
+git reset --hard upstream/main
+git push origin main --force-with-lease
 
 # Step 2: Create a new feature branch from the updated main
+# Never commit directly to main — always work on a feature branch
 git checkout -b docs/add-recommended-labels-example
 
 # Step 3: Make your changes in your editor, then verify
@@ -63,6 +65,7 @@ git push -u origin docs/add-recommended-labels-example
 # → Click "Compare & pull request"
 # → Base repo  : <upstream-org>/<repo>  |  Base branch : main
 # → Compare    : <your-username>:<feature-branch>
+# → Fill in PR title and description
 # → Submit the PR
 ```
 
